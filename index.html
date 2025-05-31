@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Roboto:wght@300;400;700&display=swap');
+        
+        :root {
+            --primary: #D72323;
+            --secondary: #F5A623;
+            --dark: #1A1A1A;
+            --light: #F8F8F8;
+            --accent: #3A86FF;
+            --sea-blue: #1e88e5;
+            --deep-sea: #0d47a1;
+        }
+        
+        body {
+            font-familyRobotoRoboto', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            scroll-behavior: smooth;
+            background-image: url('https://i.imgur.com/5ZQZQ9Q.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(248, 248, 248, 0.9);
+        }
+        
+        .heading-font {
+            font-family: 'Pirata One', cursive;
+            letter-spacing: 1px;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .section-title.visible::after {
+            transform: scaleX(1);
+        }
+        
+        .profile-img {
+            border: 5px solid var(--secondary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary);
+            left: 0;
+            top: 5px;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 100%;
+            background: var(--secondary);
+            left: 6px;
+            top: 20px;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .achievement-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            perspective: 1000px;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .achievement-card:hover .card-image {
+            transform: scale(1.05);
+        }
+        
+        .jolly-roger {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        .wave {
+            animation: wave 2s linear infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(10deg);
+            }
+            75% {
+                transform: rotate(-10deg);
+            }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(215, 35, 35, 0.3);
+        }
+        
+        .social-icon {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.2);
+            color: var(--primary);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .ship-wheel {
+            animation: spin 20s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .sea-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+        
+        .sea-wave svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 100px;
+        }
+        
+        .sea-wave .shape-fill {
+            fill: #F8F8F8;
+        }
+        
+        .card-image {
+            transition: transform 0.5s ease;
+        }
+        
+        .map-marker {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .bounty-poster {
+            border: 3px solid #8B0000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: rotate(2deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .bounty-poster:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .devil-fruit {
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .treasure-chest {
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            transition: all 0.3s ease;
+            border: 2px solid #ddd;
+        }
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(215, 35, 35, 0.2);
+        }
+        
+        .den-den-mushi {
+            animation: talk 3s infinite;
+        }
+        
+        @keyframes talk {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .navigation-compass {
+            animation: spin 10s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span class="heading-font text-2xl text-red-600">AXELL</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-800 hover:text-red-600">Home</a>
+                    <a href="#about" class="nav-link text-gray-800 hover:text-red-600">About</a>
+                    <a href="#experience" class="nav-link text-gray-800 hover:text-red-600">Experience</a>
+                    <a href="#achievements" class="nav-link text-gray-800 hover:text-red-600">Achievements</a>
+                    <a href="#contact" class="nav-link text-gray-800 hover:text-red-600">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="mobile-menu-button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-white py-4 px-6">
+            <a href="#home" class="block py-2 text-gray-800 hover:text-red-600">Home</a>
+            <a href="#about" class="block py-2 text-gray-800 hover:text-red-600">About</a>
+            <a href="#experience" class="block py-2 text-gray-800 hover:text-red-600">Experience</a>
+            <a href="#achievements" class="block py-2 text-gray-800 hover:text-red-600">Achievements</a>
+            <a href="#contact" class="block py-2 text-gray-800 hover:text-red-600">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative py-20 bg-gradient-to-r from-red-600 to-yellow-500 text-white">
+        <div class="absolute inset-0 opacity-20" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRirtkLJjXqE_XtgEjVlU7O0vROCaRC0sWuGA&s'); background-size: cover;"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 fade-in">
+                    <h1 class="heading-font text-5xl md:text-6xl mb-6">I AM <span class="text-yellow-300">MARC AXELL!</span></h1>
+                    <p class="text-xl mb-8">I am Bachelor of Science in Information Technology Student!</p>
+                    <div class="flex space-x-4">
+                        <a href="#contact" class="btn-primary px-8 py-3 rounded-full font-bold text-white">Contact</a>
+                        <a href="#about" class="border-2 border-white px-8 py-3 rounded-full font-bold text-white hover:bg-white hover:text-red-600 transition">Learn More</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center fade-in">
+                    <div class="relative">
+                        <img src="pic.jfif" alt="Luffy" class="profile-img rounded-full h-64 w-64 md:h-80 md:w-80 object-cover">
+                        <div class="absolute -top-4 -right-4 bg-red-600 p-3 rounded-full">
+                            <i class="fas fa-skull text-white text-2xl jolly-roger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sea-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+                <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15.15.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title heading-font text-4xl text-center mb-16 text-red-600">ABOUT ME</h2>
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/3 mb-10 md:mb-0 flex justify-center fade-in">
+                    <div class="relative">
+                        <img src="PROF.jfif" alt="profile" class="rounded-lg shadow-xl h-64 w-64 object-cover">
+                        <div class="absolute -bottom-5 -right-5 bg-yellow-500 p-3 rounded-full">
+                            <i class="fas fa-anchor text-white text-2xl wave"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-2/3 md:pl-12 fade-in">
+                    <h3 class="heading-font text-3xl mb-6 text-gray-800">Who I Am?</h3>
+                    <p class="text-lg mb-6 text-gray-700">I am Marc Axell Macalintal. I am 20 years old and currently in a stage of my life where I’m exploring different opportunities and figuring out my direction. Whether it’s through studying, working, or simply experiencing new things, I’m always open to learning and growing. I believe that every experience, big or small, contributes to who we become, and I try to make the most out of each moment.</p>
+                    <p class="text-lg mb-6 text-gray-700">In my free time, I enjoy doing things that help me relax and express myself—whether it’s through hobbies, spending time with friends and family, or just taking time to reflect. Life can be challenging, but I try to stay grounded and focused on what matters. I’m still a work in progress, but I’m excited about the journey ahead and the person I’m becoming.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-red-100 px-4 py-2 rounded-full">
+                            <span class="text-red-600 font-bold">Chess</span>
+                        </div>
+                        <div class="bg-yellow-100 px-4 py-2 rounded-full">
+                            <span class="text-yellow-600 font-bold">Mobile Legends</span>
+                        </div>
+                        <div class="bg-blue-100 px-4 py-2 rounded-full">
+                            <span class="text-blue-600 font-bold">Sleeping</span>
+                        </div>
+                        <div class="bg-green-100 px-4 py-2 rounded-full">
+                            <span class="text-green-600 font-bold">Eating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title heading-font text-4xl text-center mb-16 text-red-600">MY JOURNEY</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="fade-in">
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-red-600 p-3 rounded-full mr-4">
+                                <i class="fas fa-ship text-white text-xl"></i>
+                            </div>
+                            <h3 class="heading-font text-2xl text-gray-800">Elementary</h3>
+                        </div>
+                        <div class="timeline-item">
+                            <h4 class="text-xl font-bold text-gray-800">Grade 1 to Grade 6</h4>
+                            <p class="text-gray-600">2011-2016</p>
+                            <p class="mt-2 text-gray-700">I studied my elementary years at Sawang Elementary School. It was where I built the foundation of my education and learned many important lessons—not just in academics, but also in life.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4 class="text-xl font-bold text-gray-800">Kindergarten</h4>
+                            <p class="text-gray-600">2010-2011</p>
+                            <p class="mt-2 text-gray-700">I started my school journey in kindergarten at Sawang Elementary School. Everything felt new and exciting back then—from learning how to read and write, to singing songs and playing games with my classmates.0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="fade-in">
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-yellow-500 p-3 rounded-full mr-4">
+                                <i class="fas fa-trophy text-white text-xl"></i>
+                            </div>
+                            <h3 class="heading-font text-2xl text-gray-800">High School</h3>
+                        </div>
+                        <div class="timeline-item">
+                            <h4 class="text-xl font-bold text-gray-800">Junior High School</h4>
+                            <p class="text-gray-600">2016-2020</p>
+                            <p class="mt-2 text-gray-700">I spent my junior high school years at Malabrigo National High School. It was a big step from elementary, and at first, I felt nervous about the changes. But over time, I adjusted and started enjoying the new challenges.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4 class="text-xl font-bold text-gray-800">Senior High School</h4>
+                            <p class="text-gray-600">2020-2022</p>
+                            <p class="mt-2 text-gray-700">My senior high school years were some of the most memorable and challenging parts of my student life. It was during this time that I started to think more seriously about my future—what career I wanted to pursue and what kind of person I wanted to be.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="py-20 bg-white text-center">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title heading-font text-4xl text-center mb-16 text-red-600">MY TREASURES</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center place-items-center">
+                <div class="achievement-card fade-in">
+                    <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg border-2 border-yellow-500 mx-auto">
+                        <div class="relative">
+                            <img src="ml.jfif" alt="Defeating Crocodile" class="w-full h-48 object-cover card-image">
+                            <div class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full font-bold">
+                                <i class="fas fa-skull mr-1"></i> 100M
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="heading-font text-2xl text-gray-800 mb-2">Mobile Legends</h3>
+                            <p class="text-gray-600 mb-4">Champion 2023-2024 </p>
+                            <p class="text-gray-700">Led our team to victory in the 2023–2024 Mobile Legends tournament, showcasing teamwork, strategy, and strong leadership throughout the competition.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="achievement-card fade-in">
+                    <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg border-2 border-yellow-500 mx-auto">
+                        <div class="relative">
+                            <img src="chess.jfif" alt="Enies Lobby" class="w-full h-48 object-cover card-image">
+                            <div class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full font-bold">
+                                <i class="fas fa-skull mr-1"></i> 200M
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="heading-font text-2xl text-gray-800 mb-2">Chess</h3>
+                            <p class="text-gray-600 mb-4">Champion 2022-Present</p>
+                            <p class="text-gray-700">Recognized as Chess Champion since 2022, consistently winning school and local tournaments through focus, strategy, and critical thinking.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-b from-blue-100 to-blue-300 relative">
+        <div class="absolute top-0 left-0 w-full overflow-hidden">
+            <svg class="w-full h-20" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z" class="fill-white"></path>
+            </svg>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="section-title heading-font text-4xl text-center mb-16 text-red-600">SET SAIL WITH ME</h2>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2 fade-in">
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <h3 class="heading-font text-3xl text-gray-800 mb-6">Send a Message in a Bottle</h3>
+                        <form class="contact-form space-y-6">
+                            <div>
+                                <label class="block text-gray-700 mb-2" for="name">Your Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 mb-2" for="email">Your Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 mb-2" for="message">Message</label>
+                                <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary w-full py-4 rounded-lg font-bold text-white text-xl">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 fade-in">
+                    <div class="bg-red-600 text-white rounded-2xl shadow-xl p-8 h-full">
+                        <h3 class="heading-font text-3xl mb-6">Find Me on the Grand Line</h3>
+                        <p class="text-xl mb-8">Looking to join my crew or form an alliance? Reach out through these channels:</p>
+                        
+                        <div class="space-y-6 mb-10">
+                            <div class="flex items-center">
+                                <div class="bg-yellow-500 p-4 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-white text-2xl map-marker"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold">Current Location</h4>
+                                    <p>Sawang Lobo, Batangas</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-yellow-500 p-4 rounded-full mr-4">
+                                    <i class="fas fa-skull text-white text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold">Email</h4>
+                                    <p>marcaxellramirezmacalintal@gmail.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-yellow-500 p-4 rounded-full mr-4">
+                                    <i class="fas fa-phone text-white text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold">Contact No.</h4>
+                                    <p>09124994310</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4 class="heading-font text-2xl mb-6">Follow My Voyage</h4>
+                        <div class="flex space-x-6">
+                            <a href="https://www.tiktok.com/@marcaxell" class="text-gray-400 hover:text-red-600"><i class="fab fa-tiktok fa-lg"></i></a>
+                    <a href="https://www.instagram.com/axellotttt" class="text-gray-400 hover:text-red-600"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="https://www.facebook.com/marcaxellramirez6" class="text-gray-400 hover:text-red-600"><i class="fab fa-facebook fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sea-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill fill-blue-300"></path>
+                <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill fill-blue-300"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill fill-blue-300"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-4">
+                        <span class="heading-font text-2xl text-red-600">WEB PORTFOLIO</span>
+                    </div>
+                    <p class="mt-4 text-gray-400">Marc Axell Macalintal</p>
+                </div>
+                
+                <div class="flex space-x-8">
+                    <a href="https://www.tiktok.com/@marcaxell" class="text-gray-400 hover:text-red-600"><i class="fab fa-tiktok fa-lg"></i></a>
+                    <a href="https://www.instagram.com/axellotttt" class="text-gray-400 hover:text-red-600"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="https://www.facebook.com/marcaxellramirez6" class="text-gray-400 hover:text-red-600"><i class="fab fa-facebook fa-lg"></i></a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500">
+                <p>© 2025 All rights reserved. | Designed with <i class="fas fa-heart text-red-600"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    if (entry.target.classList.contains('section-title')) {
+                        entry.target.classList.add('visible');
+                    }
+                }
+            });
+        }, observerOptions);
+        
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        document.querySelectorAll('.section-title').forEach(el => {
+            observer.observe(el);
+        });
+        
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Message sent! I will contact you soon through your Den Den Mushi.');
+                contactForm.reset();
+            });
+        }
+    </script>
+</body>
+</html>
